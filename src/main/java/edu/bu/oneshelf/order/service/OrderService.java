@@ -17,6 +17,7 @@ import edu.bu.oneshelf.products.models.Product;
 import edu.bu.oneshelf.slot.models.PantrySlot;
 import edu.bu.oneshelf.slot.models.SlotDay;
 import edu.bu.oneshelf.slot.models.SlotTime;
+import edu.bu.oneshelf.slot.models.WeekDay;
 import edu.bu.oneshelf.slot.repositories.PantrySlotRepository;
 import edu.bu.oneshelf.slot.repositories.SlotDayRepository;
 import jakarta.transaction.Transactional;
@@ -114,7 +115,7 @@ public class OrderService {
             throw new NotFoundException("Pantry not found");
         }
         SlotTime slotTime = pantrySlot.getSlotTime();
-        Date date = slotDayRepository.findOrderDateByPantryIdAndSlotId(pantry.getId(),slotDay.getId()).orElseThrow( () -> new NotFoundException("Slot not found"));
+        Calendar date = slotDayRepository.findOrderDateByPantryIdAndSlotId(pantry.getId(),slotDay.getId()).orElseThrow( () -> new NotFoundException("Slot not found")).toDate();
         Integer orderNumber = orderRepository.generateOrderNoByPantryAndDate(pantry,date).orElse(0);
         Order order = new Order();
         order.setCart(cart);

@@ -7,13 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SlotDate {
-   private Date date;
+   private Calendar date;
    private SlotDay slotDay;
 
 
@@ -31,10 +32,10 @@ public class SlotDate {
    }
 
 
-   public static AvailableSlotResponse toAvailableSlotResponse(Map<String,Object> map) {
+   public static AvailableSlotResponse toAvailableSlotResponse(SlotDay day) {
         SlotDate slotDate = new SlotDate();
-        slotDate.setDate((Date) map.get("date"));
-        slotDate.setSlotDay((SlotDay) map.get("slotDay"));
+        slotDate.setDate(day.getDay().toDate());
+        slotDate.setSlotDay(day);
 
         return toAvailableSlot(slotDate);
    }

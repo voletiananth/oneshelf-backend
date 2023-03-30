@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity(name = "orders")
@@ -41,7 +42,7 @@ public class Order extends BaseModel {
     SlotTime slotTime;
 
     @Temporal(TemporalType.DATE)
-    Date orderDate;
+    Calendar orderDate;
 
 
     public OrderResponse toResponse() {

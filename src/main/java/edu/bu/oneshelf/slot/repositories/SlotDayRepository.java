@@ -26,11 +26,11 @@ public interface SlotDayRepository extends JpaRepository<SlotDay,Long > {
     List<SlotDay> findAllByUsername(String username);
 
 
-    @Query(nativeQuery = true, value = "select get_order_date(:si,:pi) ")
-    Optional<Date> findOrderDateByPantryIdAndSlotId(@Param("pi") Long pantryId, @Param("si") Long slotId);
+    @Query(value = "select s.day from SlotDay s where s.pantry = ?1 and s.day = ?2")
+    Optional<WeekDay> findOrderDateByPantryIdAndSlotId(@Param("pi") Long pantryId, @Param("si") Long slotId);
 
 
-    @Query(value = " select date_for_day_diff(sd.day) as date,sd as slotDay from SlotDay sd where sd.pantry.id = :pi order by date")
-    List<Map<String,Object>> findAllSlotDayByPantryId(@Param("pi") Long pantryId);
+    @Query(value = " select sd as slotDay from SlotDay sd where sd.pantry.id = :pi")
+    List<SlotDay> findAllSlotDayByPantryId(@Param("pi") Long pantryId);
 
 }

@@ -5,10 +5,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class AvailableSlotResponse extends AddSlotResponse {
     private Long dayId;
-    private Date date;
+    private Calendar date;
 }

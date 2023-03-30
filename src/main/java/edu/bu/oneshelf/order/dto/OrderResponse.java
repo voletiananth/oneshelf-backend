@@ -20,7 +20,7 @@ public class OrderResponse {
 
     PantryResponse pantry;
 
-    Date orderDate;
+    Calendar orderDate;
 
     SlotTimeResponse slotTime;
 
