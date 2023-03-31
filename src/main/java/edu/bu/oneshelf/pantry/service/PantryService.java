@@ -1,5 +1,6 @@
 package edu.bu.oneshelf.pantry.service;
 
+import edu.bu.oneshelf.common.BadRequestException;
 import edu.bu.oneshelf.common.Pair;
 import edu.bu.oneshelf.pantry.dto.AddPantryRequest;
 import edu.bu.oneshelf.pantry.dto.PantryCoordinatesRequest;
@@ -38,11 +39,11 @@ public class PantryService {
         slotDayRepository.saveAll(SlotDay.generate(pantry));
         return pantry.toMap();
 
-        }
-        catch(DataIntegrityViolationException e){
+        } catch(Exception e){
 
-            throw new PantryExistsException("Pantry with name " + pantryRequest.getName() + " already exists");
+            throw new BadRequestException(e.getMessage());
         }
+
     }
 
 
