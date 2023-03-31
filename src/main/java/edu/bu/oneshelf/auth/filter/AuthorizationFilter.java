@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.bu.oneshelf.auth.config.AuthenticationConstants;
 import edu.bu.oneshelf.auth.models.User;
+import edu.bu.oneshelf.common.UnAuthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +57,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(AuthenticationConstants.SECRET.getBytes()))
                     .build()
                     .verify(token.replace(AuthenticationConstants.TOKEN_PREFIX, ""));
+            if (decodedJWT.getExpiresAt().before(new java.util.Date())) {
+                throw new UnAuthorizedException("Token Expired");
+            }
             String username = decodedJWT.getSubject();
             String role = decodedJWT.getClaim("role").asString();
 
