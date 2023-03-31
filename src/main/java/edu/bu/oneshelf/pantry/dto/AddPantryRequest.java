@@ -8,8 +8,12 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
+import static org.geolatte.geom.builder.DSL.*;
+import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 @Data
 public class AddPantryRequest implements Mapper<Pantry> {
@@ -49,7 +53,6 @@ public class AddPantryRequest implements Mapper<Pantry> {
 
     @Override
     public Pantry toMap() {
-        GeometryFactory geometryFactory = new GeometryFactory();
 
         return Pantry.builder()
                 .name(this.name)
@@ -60,8 +63,7 @@ public class AddPantryRequest implements Mapper<Pantry> {
                 .zipcode(this.zipcode)
                 .phone(this.phone)
                 .email(this.email)
-                .coordinate(geometryFactory.createPoint(new Coordinate(this.getLongitude(), this.getLatitude())))
-
+                .coordinates(point(WGS84,g(this.longitude, this.latitude)))
                 .build();
     }
 }

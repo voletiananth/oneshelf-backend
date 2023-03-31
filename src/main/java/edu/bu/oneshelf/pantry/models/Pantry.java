@@ -8,17 +8,22 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-import org.hibernate.annotations.DynamicUpdate;
-import org.locationtech.jts.geom.Point;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Coordinate;
 
 @Entity(name = "pantry")
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table()
+@Table( uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "phone"),
+        @UniqueConstraint(columnNames = "name"),
+})
 @Builder
-@DynamicUpdate
-@Data public class Pantry extends BaseModel implements Mapper<PantryResponse> {
+@Data
+public class Pantry extends BaseModel implements Mapper<PantryResponse> {
 
     @Column(nullable = false)
     private String name;
@@ -37,18 +42,24 @@ import org.locationtech.jts.geom.Point;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
-    private Point coordinate;
+    private Point<G2D> coordinates;
+
+
+
+
+
 
 
 
 
     @Override
     public PantryResponse toMap() {
+        G2D point = coordinates.getPosition();
        return PantryResponse.builder()
                 .id(this.getId())
                 .name(this.name)
-                .latitude(this.coordinate.getY())
-                .longitude(this.coordinate.getX())
+                .latitude(point.getLat())
+                .longitude(point.getLon())
                 .address(this.streetAddress + ", " + this.city + ", " + this.state + " " + this.zipcode)
                 .email(email)
                 .phone(phone)

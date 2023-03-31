@@ -30,7 +30,7 @@ import java.util.List;
 public class SlotDay extends BaseModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "pantry_id")
     Pantry pantry;
 
