@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Data
@@ -23,6 +25,7 @@ public class PantrySlot extends CreateUpdateTimeStampModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "slot_day_id", updatable = false)
     @Id
+            @OnDelete(action = OnDeleteAction.CASCADE)
     SlotDay slotDay;
 
 

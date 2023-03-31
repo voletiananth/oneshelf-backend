@@ -8,6 +8,8 @@ import edu.bu.oneshelf.slot.models.SlotTime;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +33,7 @@ public class Order extends BaseModel {
 
     @ManyToOne
     @JoinColumn(name = "pantry_id")
+            @OnDelete(action = OnDeleteAction.CASCADE)
     Pantry pantry;
 
     @ManyToOne

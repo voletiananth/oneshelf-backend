@@ -15,10 +15,17 @@ import java.util.Optional;
 
 public interface PantryRepository extends JpaRepository<Pantry, Long>{
 
+
+
+
+
+
+
+
     @NotNull
     List<Pantry> findByZipcodeBetween(Integer from, Integer to);
 
-    @Query(value = "SELECT * FROM pantry as p WHERE ST_Distance_Sphere(p.coordinate,:coordinates) * 0.000621371  <= :range", nativeQuery = true)
+    @Query(value = "SELECT * FROM pantry as p WHERE ST_Distance_Sphere(p.coordinates,:coordinates) * 0.000621371  <= :range", nativeQuery = true)
     List<Pantry> findAllByCoordinatesAndRange(Point coordinates, double range);
 
 

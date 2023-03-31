@@ -7,6 +7,8 @@ import edu.bu.oneshelf.products.models.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Data
@@ -24,12 +26,14 @@ public class PantryInventory extends CreateUpdateTimeStampModel implements Mappe
         @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
         @Id
         @JoinColumn(name = "pantry_id",updatable = false)
+                @OnDelete(action = OnDeleteAction.CASCADE)
         Pantry pantry;
 
 
         @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
         @Id
         @JoinColumn(name = "product_id",updatable = false)
+        @OnDelete(action = OnDeleteAction.CASCADE)
         Product product;
 
 
