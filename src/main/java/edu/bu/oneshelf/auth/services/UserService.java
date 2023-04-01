@@ -1,9 +1,8 @@
 package edu.bu.oneshelf.auth.services;
 
 
-import edu.bu.oneshelf.auth.dto.AuthenticationRequest;
-import edu.bu.oneshelf.auth.dto.ManagerRegisterRequest;
-import edu.bu.oneshelf.auth.dto.UpdateManagerPantry;
+import edu.bu.oneshelf.auth.TokenUtils;
+import edu.bu.oneshelf.auth.dto.*;
 import edu.bu.oneshelf.auth.exceptions.UserExistsException;
 import edu.bu.oneshelf.auth.models.ManagerDetails;
 import edu.bu.oneshelf.auth.models.Role;
@@ -45,6 +44,15 @@ public class  UserService {
             user.setRole(role);
           return  userRepository.save(user);
     }
+
+    public AccessTokenResponse getAccessTokenResponse(RefreshTokenRequest refreshTokenRequest) {
+        User user = getUserByUsername(refreshTokenRequest.getUsername());
+        String access = TokenUtils.encodeAccessToken(user);
+        return new AccessTokenResponse(access);
+    }
+
+
+
 
 
     @Transactional

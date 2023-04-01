@@ -1,10 +1,12 @@
 package edu.bu.oneshelf.auth.filter;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.bu.oneshelf.auth.TokenUtils;
 import edu.bu.oneshelf.auth.config.AuthenticationConstants;
-import edu.bu.oneshelf.auth.models.User;
 import edu.bu.oneshelf.common.UnAuthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,9 +44,15 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Bad credentials");
+            return;
+        }
         chain.doFilter(request, response);
 
     }
@@ -53,22 +60,25 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(AuthenticationConstants.HEADER_STRING);
-        if (token != null) {
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(AuthenticationConstants.SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace(AuthenticationConstants.TOKEN_PREFIX, ""));
-            if (decodedJWT.getExpiresAt().before(new java.util.Date())) {
-                throw new UnAuthorizedException("Token Expired");
-            }
-            String username = decodedJWT.getSubject();
-            String role = decodedJWT.getClaim("role").asString();
+
+            if (token != null) {
+
+                DecodedJWT decodedJWT = TokenUtils.decodeAccessToken(token);
+                if (decodedJWT.getExpiresAt().before(new java.util.Date())) {
+                    throw new UnAuthorizedException("Token Expired");
+                }
+                String username = decodedJWT.getSubject();
+
+                String role = decodedJWT.getClaim("role").asString();
 
 //            User user = (User) userDetailsService.loadUserByUsername(username);
 
-            return new UsernamePasswordAuthenticationToken(username, null, getAuthorities(role));
+                return new UsernamePasswordAuthenticationToken(username, null, getAuthorities(role));
 
 
-        }
+            }
+
+
         return null;
     }
 

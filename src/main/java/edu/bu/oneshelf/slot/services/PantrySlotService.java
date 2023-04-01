@@ -5,6 +5,7 @@ import edu.bu.oneshelf.common.BadRequestException;
 import edu.bu.oneshelf.common.NotFoundException;
 import edu.bu.oneshelf.pantry.repository.PantryRepository;
 import edu.bu.oneshelf.slot.dto.*;
+import edu.bu.oneshelf.slot.models.PantrySlot;
 import edu.bu.oneshelf.slot.models.SlotDate;
 import edu.bu.oneshelf.slot.models.SlotDay;
 import edu.bu.oneshelf.slot.models.SlotTime;
@@ -63,6 +64,9 @@ public class PantrySlotService {
     }
 
     public List<AvailableSlotResponse> getAvailablePantrySlots(Long pantryId) {
-        return slotDayRepository.findAllSlotDayByPantryId(pantryId).stream().map(SlotDate::toAvailableSlotResponse).toList();
+        return slotDayRepository.findAllSlotDayByPantryId(pantryId).stream().map((slotDay) -> {
+            List<PantrySlot> pantrySlotResponses = pantrySlotRepository.findAllByCapacityAndSlotTime_StartTime_After_Now(slotDay);
+            return SlotDate.toAvailableSlotResponse(slotDay, pantrySlotResponses);
+        }).toList().stream().sorted().toList();
     }
 }

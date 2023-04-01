@@ -27,7 +27,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SlotDay extends BaseModel {
+public class  SlotDay extends BaseModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -40,8 +40,9 @@ public class SlotDay extends BaseModel {
 
 
     @OneToMany(mappedBy = "slotDay", cascade = CascadeType.ALL)
-    @Where(clause = "capacity > 0")
+
     List<PantrySlot> pantrySlots = new ArrayList<>();
+
 
 
 
