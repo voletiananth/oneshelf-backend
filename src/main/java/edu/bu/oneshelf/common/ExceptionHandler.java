@@ -1,7 +1,9 @@
 package edu.bu.oneshelf.common;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import edu.bu.oneshelf.pantry.exceptions.PantryExistsException;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -71,4 +73,7 @@ public @ResponseBody ErrorResponse handlePantriesExistsException(ConflictExcepti
 
         return new ErrorResponse(e.getStatusCode(), e.getMessage());
     }
+
+
+
 }

@@ -4,6 +4,7 @@ import edu.bu.oneshelf.slot.dto.SlotTimeResponse;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,13 @@ public class SlotTime {
 
     @Column(name = "start_time",columnDefinition = "TIME",updatable = false)
     @Temporal(TemporalType.TIME)
-    LocalTime startTime;
+    Time startTime;
 
 
 
     @Column(name = "end_time",columnDefinition = "TIME",updatable = false)
     @Temporal(TemporalType.TIME)
-    LocalTime endTime;
+   Time endTime;
     @Id
     private Long id;
 
@@ -56,8 +57,8 @@ public class SlotTime {
         for (int i = 0; i < 24; i++) {
             SlotTime slotTime = new SlotTime();
             slotTime.setId((long) i+1);
-            slotTime.setStartTime(LocalTime.of(i, 0));
-            slotTime.setEndTime(LocalTime.of((i+1)%24, 0));
+            slotTime.setStartTime(Time.valueOf(LocalTime.of(i, 0)));
+            slotTime.setEndTime(Time.valueOf(LocalTime.of((i+1)%24, 0)));
             slotTimes.add(slotTime);
         }
         return slotTimes;

@@ -1,9 +1,7 @@
 package edu.bu.oneshelf.auth.controller;
 
 
-import edu.bu.oneshelf.auth.dto.AuthenticationRequest;
-import edu.bu.oneshelf.auth.dto.ManagerRegisterRequest;
-import edu.bu.oneshelf.auth.dto.UpdateManagerPantry;
+import edu.bu.oneshelf.auth.dto.*;
 import edu.bu.oneshelf.auth.models.Role;
 import edu.bu.oneshelf.auth.services.UserService;
 import jakarta.validation.Valid;
@@ -24,7 +22,17 @@ public class AuthenticationController {
 
     private UserService userService;
 
+
+
+    @PreAuthorize("permitAll()")
+    @PostMapping("refresh/")
+    @ResponseStatus(HttpStatus.OK)
+    public AccessTokenResponse refresh(@RequestBody @Valid RefreshTokenRequest authenticationRequest){
+        return userService.getAccessTokenResponse(authenticationRequest);
+    }
+
     @PostMapping("register/")
+
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String>  register(@RequestBody @Valid AuthenticationRequest authenticationRequest){
         userService.createUser(authenticationRequest, Role.ADMIN);
@@ -42,6 +50,8 @@ public class AuthenticationController {
 
 
     @PutMapping("manager/")
+    @ResponseStatus(HttpStatus.OK)
+
     public ResponseEntity<String>  updateManager(@RequestBody @Valid UpdateManagerPantry authenticationRequest){
         userService.updateManager(authenticationRequest);
         return ResponseEntity.ok("Manager details updated successfully");
