@@ -2,18 +2,19 @@ package edu.bu.oneshelf.pantry.dto;
 
 
 import edu.bu.oneshelf.common.Mapper;
+import edu.bu.oneshelf.pantry.models.LatLog;
 import edu.bu.oneshelf.pantry.models.Pantry;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.geolatte.geom.G2D;
-import org.geolatte.geom.Point;
+import lombok.SneakyThrows;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
-import static org.geolatte.geom.builder.DSL.*;
-import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.WKTReader;
 
 @Data
 public class AddPantryRequest implements Mapper<Pantry> {
@@ -51,19 +52,24 @@ public class AddPantryRequest implements Mapper<Pantry> {
 
 
 
+    @SneakyThrows
     @Override
     public Pantry toMap() {
 
+
+
+
+
         return Pantry.builder()
-                .name(this.name)
-                .description(this.description)
-                .streetAddress(this.street)
-                .city(this.city)
-                .state(this.state)
-                .zipcode(this.zipcode)
-                .phone(this.phone)
-                .email(this.email)
-                .coordinates(point(WGS84,g(this.longitude, this.latitude)))
-                .build();
+                 .name(this.name)
+                 .description(this.description)
+                 .streetAddress(this.street)
+                 .city(this.city)
+                 .state(this.state)
+                 .zipcode(this.zipcode)
+                 .phone(this.phone)
+                 .email(this.email)
+                 .coordinates(new LatLog(this.latitude, this.longitude))
+                 .build();
     }
 }

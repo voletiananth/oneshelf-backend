@@ -40,7 +40,7 @@ public class PantryService {
         return pantry.toMap();
 
         } catch(Exception e){
-
+            e.printStackTrace();
             throw new BadRequestException(e.getMessage());
         }
 

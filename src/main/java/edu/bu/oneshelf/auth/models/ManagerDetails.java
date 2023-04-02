@@ -17,7 +17,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class ManagerDetails extends BaseModel {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",unique = true)
-@OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     User user;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

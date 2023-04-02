@@ -3,14 +3,13 @@ package edu.bu.oneshelf.pantry.models;
 
 import edu.bu.oneshelf.common.BaseModel;
 import edu.bu.oneshelf.common.Mapper;
+import edu.bu.oneshelf.pantry.CoordinateConverter;
 import edu.bu.oneshelf.pantry.dto.PantryResponse;
 import jakarta.persistence.*;
 import lombok.*;
-
-
-import org.geolatte.geom.G2D;
-import org.geolatte.geom.Point;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Point;
+
 
 @Entity(name = "pantry")
 @AllArgsConstructor(staticName = "build")
@@ -20,7 +19,10 @@ import org.locationtech.jts.geom.Coordinate;
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "phone"),
         @UniqueConstraint(columnNames = "name"),
-})
+
+}
+
+)
 @Builder
 @Data
 public class Pantry extends BaseModel implements Mapper<PantryResponse> {
@@ -42,7 +44,8 @@ public class Pantry extends BaseModel implements Mapper<PantryResponse> {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
-    private Point<G2D> coordinates;
+    @Convert(converter = CoordinateConverter.class)
+    private LatLog coordinates;
 
 
 
@@ -54,12 +57,13 @@ public class Pantry extends BaseModel implements Mapper<PantryResponse> {
 
     @Override
     public PantryResponse toMap() {
-        G2D point = coordinates.getPosition();
+
+
        return PantryResponse.builder()
                 .id(this.getId())
                 .name(this.name)
-                .latitude(point.getLat())
-                .longitude(point.getLon())
+                .latitude(coordinates.getLat())
+                .longitude(coordinates.getLng())
                 .address(this.streetAddress + ", " + this.city + ", " + this.state + " " + this.zipcode)
                 .email(email)
                 .phone(phone)

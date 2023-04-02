@@ -1,6 +1,7 @@
 package edu.bu.oneshelf.pantry.dto;
 
 
+import edu.bu.oneshelf.pantry.models.LatLog;
 import edu.bu.oneshelf.pantry.models.Pantry;
 import edu.bu.oneshelf.pantry.utils.Zipcode;
 import lombok.Data;
@@ -55,9 +56,8 @@ public class PantryUpdateRequest {
                 pantry.setPhone(phone);
             if (email != null && !email.isBlank() && !Objects.equals(pantry.getEmail(), email))
                 pantry.setEmail(email);
-            if (latitude != null && longitude != null &&  !Objects.equals(pantry.getCoordinates(), point(WGS84,g(this.longitude, this.latitude)))){
-                GeometryFactory geometryFactory = new GeometryFactory();
-                pantry.setCoordinates(point(WGS84,g(this.longitude, this.latitude)));
+            if (latitude != null && longitude != null &&  !Objects.equals(pantry.getCoordinates(), new LatLog(latitude, longitude)))         {
+                pantry.setCoordinates(new LatLog(latitude, longitude));
             }
 
         return pantry;
