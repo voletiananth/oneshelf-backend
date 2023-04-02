@@ -8,6 +8,7 @@ import edu.bu.oneshelf.pantry.dto.PantryResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
 
@@ -45,7 +46,7 @@ public class Pantry extends BaseModel implements Mapper<PantryResponse> {
     private String email;
     @Column(nullable = false)
     @Convert(converter = CoordinateConverter.class)
-    private LatLog coordinates;
+    private Point coordinates;
 
 
 
@@ -62,8 +63,8 @@ public class Pantry extends BaseModel implements Mapper<PantryResponse> {
        return PantryResponse.builder()
                 .id(this.getId())
                 .name(this.name)
-                .latitude(coordinates.getLat())
-                .longitude(coordinates.getLng())
+                .latitude(coordinates.getCoordinate().y)
+                .longitude(coordinates.getCoordinate().x)
                 .address(this.streetAddress + ", " + this.city + ", " + this.state + " " + this.zipcode)
                 .email(email)
                 .phone(phone)

@@ -10,6 +10,7 @@ import org.geolatte.geom.Geometry;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.WKTWriter;
 
 import static org.geolatte.geom.builder.DSL.g;
 import static org.geolatte.geom.builder.DSL.point;
@@ -28,16 +29,16 @@ public class PantryCoordinatesRequest {
     @Max(value = 50L, message = "Range cannot be greater than 50 miles")
     private Double range = 50.0;
 
-    public Point toPoint() {
+    public String toPoint() {
+        WKTWriter wktWriter = new WKTWriter();
         if (this.latitude == null || this.longitude == null) {
             throw new CoordinatesException("Invalid coordinates");
         }
         System.out.println("Latitude: " + this.latitude + " Longitude: " + this.longitude + " Range: " + this.range);
 
 
+        Point point =  new GeometryFactory().createPoint(new Coordinate(this.longitude, this.latitude));
+        return wktWriter.write(point);
 
-        Point point = new GeometryFactory().createPoint(new Coordinate(this.longitude, this.latitude));
-        point.setSRID(4326);
-        return point;
     }
 }

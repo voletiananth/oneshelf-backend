@@ -57,7 +57,12 @@ public class AddPantryRequest implements Mapper<Pantry> {
     public Pantry toMap() {
 
 
+        System.out.println("Latitude: " + this.latitude + " Longitude: " + this.longitude);
 
+        GeometryFactory geometryFactory = new GeometryFactory();
+
+        Point point = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
+        point.setSRID(4326);
 
 
         return Pantry.builder()
@@ -69,7 +74,7 @@ public class AddPantryRequest implements Mapper<Pantry> {
                  .zipcode(this.zipcode)
                  .phone(this.phone)
                  .email(this.email)
-                 .coordinates(new LatLog(this.latitude, this.longitude))
+                 .coordinates(point)
                  .build();
     }
 }
