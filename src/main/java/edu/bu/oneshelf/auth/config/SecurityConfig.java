@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +39,7 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/refresh/")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/client/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/manager/**"))
@@ -51,6 +55,15 @@ public class SecurityConfig {
                 .addFilterAfter(new AuthorizationFilter(authenticationManager,userDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().cors().configurationSource( request -> {
+                    CorsConfiguration cors = new CorsConfiguration();
+                    ArrayList<String> allowedOrigins = new ArrayList<>();
+                    allowedOrigins.add("*");
+                    cors.setAllowedOrigins(allowedOrigins);
+                    cors.setAllowedMethods(allowedOrigins);
+                    cors.setAllowedHeaders(allowedOrigins);
+                    return cors;
+                });
                 ;
 
         return http.build();
