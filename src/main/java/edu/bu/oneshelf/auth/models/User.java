@@ -13,8 +13,8 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table
-@Entity
+@Table(name = "user")
+@Entity(name = "user")
 public class User extends BaseModel implements UserDetails {
 
     @Column(unique = true)
