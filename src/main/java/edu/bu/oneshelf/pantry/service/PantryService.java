@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -39,9 +40,13 @@ public class PantryService {
         slotDayRepository.saveAll(SlotDay.generate(pantry));
         return pantry.toMap();
 
-        } catch(Exception e){
-
-            throw new BadRequestException(e.getMessage());
+        } catch(DataIntegrityViolationException e){
+            e.printStackTrace();
+            throw new PantryExistsException("Pantry with name " + pantryRequest.getName() + " already exists");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestException("Invalid request");
         }
 
     }

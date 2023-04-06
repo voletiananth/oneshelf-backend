@@ -1,17 +1,15 @@
 package edu.bu.oneshelf.pantry.dto;
 
 
+import edu.bu.oneshelf.pantry.models.LatLog;
 import edu.bu.oneshelf.pantry.models.Pantry;
 import edu.bu.oneshelf.pantry.utils.Zipcode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 
 import java.util.Objects;
-
-import static org.geolatte.geom.builder.DSL.g;
-import static org.geolatte.geom.builder.DSL.point;
-import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 @Data
 @NoArgsConstructor
@@ -39,6 +37,8 @@ public class PantryUpdateRequest {
 
 
     public Pantry updatePantry(Pantry pantry) {
+        GeometryFactory geometryFactory = new GeometryFactory();
+
        if (name != null && !name.isBlank()  && !Objects.equals(pantry.getName(), name))
            pantry.setName(name);
          if (description != null && !description.isBlank() && !Objects.equals(pantry.getDescription(), description))
@@ -55,9 +55,8 @@ public class PantryUpdateRequest {
                 pantry.setPhone(phone);
             if (email != null && !email.isBlank() && !Objects.equals(pantry.getEmail(), email))
                 pantry.setEmail(email);
-            if (latitude != null && longitude != null &&  !Objects.equals(pantry.getCoordinates(), point(WGS84,g(this.longitude, this.latitude)))){
-                GeometryFactory geometryFactory = new GeometryFactory();
-                pantry.setCoordinates(point(WGS84,g(this.longitude, this.latitude)));
+            if (latitude != null && longitude != null && !Objects.equals(pantry.getCoordinates(), geometryFactory.createPoint(new Coordinate(this.longitude,this.latitude)))  )   {
+                pantry.setCoordinates( geometryFactory.createPoint(new Coordinate(this.longitude,this.latitude)));
             }
 
         return pantry;

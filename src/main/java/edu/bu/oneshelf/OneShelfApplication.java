@@ -10,13 +10,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.WebApplicationInitializer;
 
 @SpringBootApplication
 @AllArgsConstructor
-public class OneShelfApplication {
+public class OneShelfApplication  extends SpringBootServletInitializer implements WebApplicationInitializer {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -27,6 +30,11 @@ public class OneShelfApplication {
         SpringApplication.run(OneShelfApplication.class, args);
     }
 
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(OneShelfApplication.class);
+    }
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext context){
