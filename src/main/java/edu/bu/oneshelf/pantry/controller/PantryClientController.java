@@ -52,7 +52,7 @@ public class PantryClientController {
 
 
 
-    @GetMapping("products/")
+    @PostMapping("products/")
     public List<ProductResponse> getPantryProductsByCategory(@RequestBody @Valid PantryProductsRequest pantryProductsRequest)
     {
         return pantryInventoryService.getPantryProductsByCategory(pantryProductsRequest);
