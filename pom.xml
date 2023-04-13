@@ -9,9 +9,6 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
             </properties>
-    <activation>
-        <activeByDefault>true</activeByDefault>
-    </activation>
 
 
         </profile>
@@ -20,6 +17,19 @@
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
+
+        </profile>
+
+
+        <profile>
+            <id>rail</id>
+            <properties>
+                <spring.profiles.active>rail</spring.profiles.active>
+            </properties>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 
 
         </profile>
