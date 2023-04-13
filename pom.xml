@@ -48,11 +48,8 @@
     <name>OneShelf</name>
     <description>OneShelf</description>
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
         <start-class>edu.bu.oneshelf.OneShelfApplication</start-class>
-
-
-
     </properties>
     <dependencies>
 
@@ -60,8 +57,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
