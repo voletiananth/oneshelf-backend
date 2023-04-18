@@ -11,4 +11,6 @@ public class PantryProductsRequest {
     Long pantryId;
     @NotNull(message = "Category Id cannot be null")
     Long categoryId;
+
+    Long cartId = null;
 }
