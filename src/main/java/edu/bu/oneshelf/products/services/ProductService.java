@@ -72,9 +72,10 @@ public class ProductService {
 
 
     @Transactional
-    public ProductImagesResponse addProductImages(MultipartFile file){
-
-        ProductGallery productGallery = productGalleryRepository.save(new ProductGallery());
+    public ProductImagesResponse addProductImages(MultipartFile file,String name){
+            ProductGallery product = new ProductGallery();
+            product.setName(name);
+        ProductGallery productGallery = productGalleryRepository.save(product);
 
         ProductImage  image =  getProductImagesResponse(file, productGallery);
 

@@ -31,6 +31,8 @@ public class ProductGallery extends BaseModel implements Mapper<ProductImagesRes
         List<ProductImage> product_images = new ArrayList<>();
 
 
+        String name;
+
         public void addProductImage(ProductImage productImage){
                 this.product_images.add(productImage);
         }
