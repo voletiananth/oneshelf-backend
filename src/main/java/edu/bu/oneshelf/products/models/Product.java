@@ -14,14 +14,18 @@ import java.util.StringJoiner;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "products")
+@Table(name = "products",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name","brand","category_id"})
+
+})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Product extends BaseModel implements Mapper<ProductResponse> {
 
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String description;
@@ -40,11 +44,6 @@ public class Product extends BaseModel implements Mapper<ProductResponse> {
     private Category category;
 
 
-    @OneToOne( targetEntity = ProductGallery.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @JoinColumn(name = "product_gallery_id",unique = true)
-    private ProductGallery product_gallery;
-
 
 
 
@@ -61,7 +60,7 @@ public class Product extends BaseModel implements Mapper<ProductResponse> {
                 .description(this.description)
                 .thumbnail(ImagesMapping.getProductUrl(this.thumbnail) )
                 .brand(this.brand)
-                .images_details(this.product_gallery.toMap())
+
                 .categoryId(this.category.getId())
                 .build();
     }

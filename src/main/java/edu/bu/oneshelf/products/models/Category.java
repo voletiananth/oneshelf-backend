@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.bu.oneshelf.common.BaseModel;
+import edu.bu.oneshelf.common.CreateUpdateTimeStampModel;
 import edu.bu.oneshelf.common.Mapper;
 import edu.bu.oneshelf.products.dto.CategoryProductResponse;
 import edu.bu.oneshelf.products.dto.CategoryResponse;
@@ -11,11 +12,10 @@ import edu.bu.oneshelf.products.dto.ProductResponse;
 import edu.bu.oneshelf.products.utils.ImagesMapping;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 
 @Data
@@ -24,8 +24,13 @@ import java.util.StringJoiner;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true,exclude = {"products"})
-public class Category extends BaseModel implements Mapper<CategoryResponse> {
+
+public class Category extends CreateUpdateTimeStampModel implements Mapper<CategoryResponse> {
+    @Id
+    @Getter
+    @Column(updatable = false)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    protected Long id;
         @Column(nullable = false, unique = true)
         private String name;
 
@@ -37,7 +42,6 @@ public class Category extends BaseModel implements Mapper<CategoryResponse> {
 
         @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
                 @ToString.Exclude
-
         Set<Product> products = new HashSet<>();
 
 
@@ -51,6 +55,8 @@ public class Category extends BaseModel implements Mapper<CategoryResponse> {
                     .thumbnail(ImagesMapping.getCategoryUrl(this.thumbnail))
                     .build();
         }
+
+
 
 
     public CategoryProductResponse toMapWithProducts() {

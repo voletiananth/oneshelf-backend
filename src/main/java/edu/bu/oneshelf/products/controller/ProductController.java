@@ -36,15 +36,6 @@ public class ProductController {
         return productService.addProduct(productRequest);
     }
 
-    @PostMapping("product/images/")
-    public ProductImagesResponse addProductImages(@RequestParam(value = "id",required = false) Long id,@RequestParam(value = "name",required = false) String name ,@RequestParam(value = "image") MultipartFile file){
-        if (id == null && name != null)
-            return productService.addProductImages(file,name);
-        else if (name == null)
-            throw new BadRequestException("name is required");
-
-        return productService.addProductImages(id,file);
-    }
 
 
 

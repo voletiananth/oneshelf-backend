@@ -38,6 +38,6 @@ public interface PantryInventoryRepository  extends JpaRepository<PantryInventor
     @Query("SELECT p.product FROM pantry_inventory p WHERE p.pantry = ?1 AND p.product.category = ?2")
     List<Product> findProductsByPantryAndCategory(Pantry pantry, Category category);
 
-    @Query(value = "select pi.createdAt, pi.updatedAt,pi.product_id,pi.pantry_id,ifnull(( select cp.quantity from cart_products cp where :c is not null and cp.cart_id = :c and pi.product_id = cp.product_id),0)  as quantity from pantry_inventory pi left join products p on pi.product_id = p.id and p.category_id =:b where pantry_id =:a ", nativeQuery = true)
+    @Query(value = "select pi.createdAt, pi.updatedAt,pi.product_id,pi.pantry_id,ifnull(( select cp.quantity from cart_products cp where :c is not null and cp.cart_id = :c and pi.product_id = cp.product_id),0)  as quantity from pantry_inventory pi inner join products p on p.category_id =:b and  pi.product_id = p.id where pantry_id =:a ", nativeQuery = true)
     List<PantryInventory> findProductsByPantryAndCategoryId(@Param("a") Long pantryId,@Param("b") Long categoryId,@Param("c") Long cartId);
 }
