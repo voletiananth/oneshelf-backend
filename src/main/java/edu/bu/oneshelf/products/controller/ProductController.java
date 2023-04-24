@@ -1,6 +1,7 @@
 package edu.bu.oneshelf.products.controller;
 
 
+import edu.bu.oneshelf.common.BadRequestException;
 import edu.bu.oneshelf.products.dto.*;
 import edu.bu.oneshelf.products.services.CategoryService;
 import edu.bu.oneshelf.products.services.ProductService;
@@ -35,13 +36,6 @@ public class ProductController {
         return productService.addProduct(productRequest);
     }
 
-    @PostMapping("product/images/")
-    public ProductImagesResponse addProductImages(@RequestParam(value = "id",required = false) Long id,@RequestParam(value = "image") MultipartFile file){
-        if (id == null)
-            return productService.addProductImages(file);
-
-        return productService.addProductImages(id,file);
-    }
 
 
 

@@ -18,5 +18,9 @@ public interface PantrySlotRepository  extends JpaRepository<PantrySlot, PantryS
     @Query("SELECT ps FROM PantrySlot ps WHERE ps.slotDay = ?1 AND ps.capacity > 0 AND ps.slotTime.startTime > CURRENT_TIME ")
     List<PantrySlot> findAllByCapacityAndSlotTime_StartTime_After_Now(SlotDay slotDay);
 
+
+    @Query("SELECT ps FROM PantrySlot ps WHERE ps.slotDay = ?1 AND ps.capacity > 0 ")
+    List<PantrySlot> findAllByCapacityAndSlotTime(SlotDay slotDay);
+
     Optional<PantrySlot> findBySlotDayIdAndSlotTimeId(Long slotDayId, Long slotTimeId);
 }

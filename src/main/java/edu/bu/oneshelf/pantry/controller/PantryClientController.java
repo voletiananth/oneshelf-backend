@@ -53,10 +53,13 @@ public class PantryClientController {
 
 
     @PostMapping("products/")
-    public List<ProductResponse> getPantryProductsByCategory(@RequestBody @Valid PantryProductsRequest pantryProductsRequest)
+    public List<ProductAndCartQuantityResponse> getPantryProductsByCategory(@RequestBody @Valid PantryProductsRequest pantryProductsRequest)
     {
         return pantryInventoryService.getPantryProductsByCategory(pantryProductsRequest);
     }
+
+
+
 
 
 

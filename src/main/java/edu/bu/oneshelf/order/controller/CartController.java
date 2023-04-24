@@ -31,7 +31,7 @@ public class CartController {
 
 
 
-    @GetMapping()
+    @PostMapping("details/")
     @ResponseStatus(HttpStatus.OK)
     public CartResponse getCart(@RequestBody CartRequest cartRequest) {
         return orderService.getCart(cartRequest);

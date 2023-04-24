@@ -53,7 +53,7 @@ public class CartProducts extends CreateUpdateTimeStampModel {
 
     public AddCartProductResponse toAddCartProductResponse() {
         return AddCartProductResponse.builder()
-                .cartId(this.cart.getId())
+                .id(this.cart.getId())
                 .product(this.toResponse())
                 .build();
 

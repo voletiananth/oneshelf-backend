@@ -6,18 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SlotDate {
-   private Calendar date;
+   private Date date;
    private SlotDay slotDay;
-
 
 
 
@@ -33,9 +30,9 @@ public class SlotDate {
    }
 
 
-   public static AvailableSlotResponse toAvailableSlotResponse(SlotDay day, List<PantrySlot> pantrySlots) {
+   public static AvailableSlotResponse toAvailableSlotResponse(SlotDay day, List<PantrySlot> pantrySlots, Date date) {
         SlotDate slotDate = new SlotDate();
-        slotDate.setDate(day.getDay().toDate());
+        slotDate.setDate(date);
         slotDate.setSlotDay(day);
 
         return toAvailableSlot(slotDate,  pantrySlots);

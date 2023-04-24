@@ -4,7 +4,6 @@ package edu.bu.oneshelf.products.dto;
 import edu.bu.oneshelf.common.ImageUtils;
 import edu.bu.oneshelf.products.models.Category;
 import edu.bu.oneshelf.products.models.Product;
-import edu.bu.oneshelf.products.models.ProductGallery;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -35,12 +34,10 @@ public class AddProductRequest {
     private Long categoryId;
 
 
-    @NotNull(message = "Images is required")
-    private Long imageId;
 
 
 
-    public Product toProduct(Category category, ProductGallery images, Path path) throws IOException {
+    public Product toProduct(Category category, Path path) throws IOException {
          String fileName = ImageUtils.saveImage(path, this.thumbnail);
         return Product.builder()
 
@@ -49,7 +46,7 @@ public class AddProductRequest {
                 .thumbnail(fileName)
                 .brand(this.brand)
                 .category(category)
-                .product_gallery(images)
+
                 .build();
     }
 

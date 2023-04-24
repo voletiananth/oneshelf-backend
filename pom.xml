@@ -8,11 +8,11 @@
             <id>dev</id>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
+
             </properties>
     <activation>
         <activeByDefault>true</activeByDefault>
     </activation>
-
 
         </profile>
         <profile>
@@ -21,8 +21,10 @@
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
 
-
         </profile>
+
+
+
     </profiles>
 
     <parent>
@@ -34,15 +36,12 @@
     <groupId>edu.bu</groupId>
     <artifactId>OneShelf</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>OneShelf</name>
     <description>OneShelf</description>
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
         <start-class>edu.bu.oneshelf.OneShelfApplication</start-class>
-
-
-
     </properties>
     <dependencies>
 
@@ -50,8 +49,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -152,7 +149,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
+                <version>3.0.4</version>
                 <configuration>
                     <mainClass>edu.bu.oneshelf.OneShelfApplication</mainClass>
 

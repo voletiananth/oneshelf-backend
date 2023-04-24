@@ -5,6 +5,8 @@ import edu.bu.oneshelf.auth.exceptions.ManagerNotExistsException;
 import edu.bu.oneshelf.auth.repositories.ManagerDetailsRepository;
 import edu.bu.oneshelf.common.NotFoundException;
 import edu.bu.oneshelf.order.dto.CartResponse;
+import edu.bu.oneshelf.order.models.Cart;
+import edu.bu.oneshelf.order.repository.CartRepository;
 import edu.bu.oneshelf.pantry.dto.*;
 import edu.bu.oneshelf.pantry.exceptions.PantryDoesNotExistsException;
 import edu.bu.oneshelf.pantry.exceptions.PantryExistsException;
@@ -37,6 +39,9 @@ public class PantryInventoryService {
     private final PantryRepository pantryRepository;
 
     private final ManagerDetailsRepository managerDetailsRepository;
+
+
+    private final CartRepository cartRepository;
 
 
 
@@ -121,9 +126,10 @@ public class PantryInventoryService {
     }
 
 
-    public List<ProductResponse> getPantryProductsByCategory(PantryProductsRequest request) {
+    public List<ProductAndCartQuantityResponse> getPantryProductsByCategory(PantryProductsRequest request) {
         Pantry pantry = pantryRepository.findById(request.getPantryId()).orElseThrow(() -> new PantryDoesNotExistsException("Pantry does not exists"));
-        List<Product> products = pantryInventoryRepository.findProductsByPantryAndCategoryId(pantry,request.getCategoryId());
-        return products.stream().map(Product::toMap).toList();
+
+      return   pantryInventoryRepository.findProductsByPantryAndCategoryId(pantry.getId(), request.getCategoryId(), request.getCartId()).stream().map(ProductAndCartQuantityResponse::from).toList();
+
     }
 }

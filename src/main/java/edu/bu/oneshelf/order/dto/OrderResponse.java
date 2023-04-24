@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Builder
 public class OrderResponse {
-
+    Long id;
     String orderNo;
 
     PantryResponse pantry;

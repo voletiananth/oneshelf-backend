@@ -15,7 +15,6 @@ public class OrderRequest {
    private Long dayId;
    @NotNull(message = "Pantry Id cannot be null")
    private Long pantryId;
-
    @NotNull(message = "Time Id cannot be null")
    private Long timeId;
 }

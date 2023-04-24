@@ -24,6 +24,8 @@ public class CategoryRequest {
     private MultipartFile thumbnail;
 
 
+
+
     public Category saveThumbnailAndMapTo(Path uploadPath) throws IOException {
 
 

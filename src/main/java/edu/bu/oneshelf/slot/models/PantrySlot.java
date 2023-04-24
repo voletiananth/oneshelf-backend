@@ -1,6 +1,7 @@
 package edu.bu.oneshelf.slot.models;
 
 import edu.bu.oneshelf.common.CreateUpdateTimeStampModel;
+import edu.bu.oneshelf.slot.dto.SlotDayResponse;
 import edu.bu.oneshelf.slot.dto.SlotTimeCapacityResponse;
 import edu.bu.oneshelf.slot.dto.SlotTimeResponse;
 import jakarta.persistence.*;
@@ -46,5 +47,8 @@ public class PantrySlot extends CreateUpdateTimeStampModel {
         slotTimeResponse.setCapacity(this.capacity);
         return slotTimeResponse;
     }
+
+
+
 
 }

@@ -38,7 +38,7 @@ public class PantryInventory extends CreateUpdateTimeStampModel implements Mappe
 
 
 
-        Integer quantity = 0;
+        int quantity = 0;
 
         @Override
         public AddPantryProductResponse toMap() {

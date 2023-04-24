@@ -1,6 +1,7 @@
 package edu.bu.oneshelf.slot.models;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public enum WeekDay {
     SUNDAY,

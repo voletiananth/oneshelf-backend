@@ -83,13 +83,27 @@ public class OrderService {
 
     public AddCartProductResponse updateCartProduct(Long cartId , CartProductRequest request){
 
-       return getCartProduct(cartId,request.getProductId(), request.getPantryId(),(cart, product)->{
-           CartProducts products = cartProductsRepository.findById(new CartProductsKey(cart,product)).orElseThrow( () -> new NotFoundException("Product not found in cart"));
-              products.setQuantity(request.getQuantity());
-              return cartProductsRepository.save(products);
-        }).toAddCartProductResponse();
+        Cart cart = cartRepository.findById(cartId).orElseThrow( () -> new NotFoundException("Cart not found"));
+        Product product = pantryInventoryRepository.findProductByPantryIdAndProductId(request.getPantryId(),request.getProductId()).orElseThrow( () -> new NotFoundException("Product not found"));
+        CartProducts products = cartProductsRepository.findById(new CartProductsKey(cart,product)).orElseThrow( () -> new NotFoundException("Product not found in cart"));
+        products.setQuantity(request.getQuantity());
+
+        AddCartProductResponse response = cartProductsRepository.save(products).toAddCartProductResponse();
+
+        if (response.getProduct().getQuantity() == 0) {
+            cartProductsRepository.delete(products);
+        }
+
+        return response;
+
+//
 
     }
+
+
+
+
+
 
 
 
@@ -127,13 +141,8 @@ public class OrderService {
     }
 
 
-
-
-
-
-
-
-
-
-
+    public OrderResponse getOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow( () -> new NotFoundException("Order not found"));
+        return order.toResponse();
+    }
 }
