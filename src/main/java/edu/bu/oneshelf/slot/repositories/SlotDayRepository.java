@@ -26,7 +26,7 @@ public interface SlotDayRepository extends JpaRepository<SlotDay,Long > {
     List<SlotDay> findAllByUsername(String username);
 
 
-    @Query(value = "select s.day from SlotDay s where s.pantry = ?1 and s.day = ?2")
+    @Query(value = "select s.day from SlotDay s where s.pantry.id = ?1 and s.id = ?2")
     Optional<WeekDay> findOrderDateByPantryIdAndSlotId(@Param("pi") Long pantryId, @Param("si") Long slotId);
 
 

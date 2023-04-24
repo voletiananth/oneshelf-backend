@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class AddCartProductResponse  {
-    public Long cartId;
+    public Long id;
     private CartProductResponse product;
 
 }

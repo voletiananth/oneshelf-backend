@@ -20,4 +20,11 @@ public class OrderController {
         return orderService.placeOrder(orderRequest);
     }
 
+
+    @GetMapping("{orderId}/")
+    @ResponseBody
+    public OrderResponse getOrder(@PathVariable Long orderId) {
+        return orderService.getOrder(orderId);
+    }
+
 }

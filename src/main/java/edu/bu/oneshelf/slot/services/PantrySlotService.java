@@ -15,6 +15,8 @@ import edu.bu.oneshelf.slot.repositories.SlotTimeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,8 +67,15 @@ public class PantrySlotService {
 
     public List<AvailableSlotResponse> getAvailablePantrySlots(Long pantryId) {
         return slotDayRepository.findAllSlotDayByPantryId(pantryId).stream().map((slotDay) -> {
-            List<PantrySlot> pantrySlotResponses = pantrySlotRepository.findAllByCapacityAndSlotTime_StartTime_After_Now(slotDay);
-            return SlotDate.toAvailableSlotResponse(slotDay, pantrySlotResponses);
+            Date date = slotDay.getDay().toDate().getTime();
+            List<PantrySlot> pantrySlotResponses;
+
+            if (date.after(Calendar.getInstance().getTime())) {
+                pantrySlotResponses = pantrySlotRepository.findAllByCapacityAndSlotTime(slotDay);
+            }else {
+                pantrySlotResponses = pantrySlotRepository.findAllByCapacityAndSlotTime_StartTime_After_Now(slotDay);
+            }
+            return SlotDate.toAvailableSlotResponse(slotDay, pantrySlotResponses,date);
         }).toList().stream().sorted().toList();
     }
 }

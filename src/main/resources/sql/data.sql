@@ -135,7 +135,7 @@ values(13,1,'Brussels Sprouts','produce/Brussels-sprouts.webp','Organic Brussels
 
 
 insert into products(id,category_id, name,thumbnail,description,brand,createdAt,updatedAt)
-values(14,1,'Black Grape','produce/dark grapes.jpeg','Organic Black Grape','Organic',now(),now());
+values(14,1,'Black Grape','produce/dark grapes.jpg','Organic Black Grape','Organic',now(),now());
 
 
 insert into products(id,category_id, name,thumbnail,description,brand,createdAt,updatedAt)
