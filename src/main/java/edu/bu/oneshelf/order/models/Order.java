@@ -52,7 +52,8 @@ public class Order extends BaseModel {
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
         return OrderResponse.builder()
                 .id(getId())
-                .orderNo(dateTimeFormat.format(orderDate.getTime())+ " - " + pantry.getId() +" - "+orderNumber.toString() + " - " + cart.getId())
+                .orderNo(orderNumber)
+                .referenceNo(dateTimeFormat.format(orderDate.getTime())+ " - " + pantry.getId() +" - "+orderNumber.toString() + " - " + cart.getId())
                 .pantry(pantry.toMap())
                 .products(cart.toResponse().getProducts())
                 .slotTime(slotTime.toResponse())

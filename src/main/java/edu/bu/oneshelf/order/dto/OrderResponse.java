@@ -16,7 +16,10 @@ import java.util.List;
 @Builder
 public class OrderResponse {
     Long id;
-    String orderNo;
+
+    Integer orderNo;
+
+    String referenceNo;
 
     PantryResponse pantry;
 
